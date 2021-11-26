@@ -5,11 +5,11 @@ import { Timer } from './src/features/timer/Timer';
 import { spacing } from './src/utils/sizes';
 
 export default function App() {
-    const [focusSubject, setFocusSubject] = useState(null);
+    const [focusSubject, setFocusSubject] = useState('gardening');
     return (
         <View style={styles.container}>
             {focusSubject ? (
-                <Timer addSubject={setFocusSubject} />
+                <Timer focusSubject={focusSubject} addSubject={setFocusSubject} />
             ) : (
                 <Focus addSubject={setFocusSubject} />
             )}
