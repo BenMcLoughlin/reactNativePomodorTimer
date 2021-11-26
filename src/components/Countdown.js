@@ -7,7 +7,7 @@ import { colors } from '../utils/colors';
 const minutesToMillis = (minutes) => minutes * 60 * 1000;
 const formatTime = (time) => (time < 10 ? `0${time}` : time);
 
-export const Countdown = ({ minutes = 20, isPaused = true }) => {
+export const Countdown = ({ minutes = 20, isPaused = true, setProgress }) => {
     const [millis, setMillis] = useState(minutesToMillis(minutes));
 
     const interval = React.useRef(null);
@@ -20,6 +20,7 @@ export const Countdown = ({ minutes = 20, isPaused = true }) => {
                 return time;
             }
             const timeLeft = time - 1000;
+            setProgress(timeLeft / minutesToMillis(minutes));
             return timeLeft;
         });
     };

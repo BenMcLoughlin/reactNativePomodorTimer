@@ -5,21 +5,31 @@ import { spacing } from '../../utils/sizes';
 import { colors } from '../../utils/colors';
 import { Countdown } from '../../components/Countdown';
 import { RoundedButton } from '../../components/RoundedButton';
+import { ProgressBar } from 'react-native-paper';
 
 export function Timer({ focusSubject }) {
     const [isStarted, setIsStarted] = useState(false);
+    const [progress, setProgress] = useState(1);
+
 
     return (
         <View style={styles.container}>
             <View style={styles.countdown}>
-                <Countdown isPaused={!isStarted} />
+                <Countdown isPaused={!isStarted} setProgress={setProgress} />
             </View>
 
             <View style={{ paddingTop: spacing.xxl }}></View>
             <Text style={styles.title}>Focusing on: </Text>
             <Text style={styles.task}>{focusSubject}</Text>
-            <RoundedButton text={'start'} size={50} onPress={() => setIsStarted(true)} />
-            <RoundedButton text={'stop'} size={50} onPress={() => setIsStarted(false)} />
+            <View style={{ paddingTop: spacing.sm }}>
+                <ProgressBar color="#5484e2" style={{ height: 10 }} progress={progress} />
+            </View>
+            <View style={styles.buttonWrapper}>
+                <RoundedButton
+                    text={isStarted ? 'pause' : 'start'}
+                    onPress={() => setIsStarted(!isStarted)}
+                />
+            </View>
         </View>
     );
 }
@@ -30,10 +40,16 @@ const styles = StyleSheet.create({
         padding: 50,
     },
     title: { color: colors.white, textAlign: 'center' },
-    task: { color: colors.white, fontWeight: 'bold' },
+    task: { color: colors.white, textAlign: 'center', fontWeight: 'bold' },
     countdown: {
         flex: 0.5,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    buttonWrapper: {
+        flex: 0.3,
+        padding: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
