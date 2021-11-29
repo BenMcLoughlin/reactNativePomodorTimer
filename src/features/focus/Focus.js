@@ -4,8 +4,8 @@ import { TextInput } from 'react-native-paper';
 import { RoundedButton } from '../../components/RoundedButton';
 import { fontSizes, spacing } from '../../utils/sizes';
 
-export function Focus({ addSubject }) {
-    const [tmpItem, setTmpItem] = useState('');
+export function Focus({ setFocusSubject }) {
+    const [subject, setSubject] = useState(null);
 
     return (
         <View style={styles.container}>
@@ -14,9 +14,9 @@ export function Focus({ addSubject }) {
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={{ flex: 1, marginRight: 20 }}
-                        onSubmitEditing={({ nativeEvent: { text } }) => setTmpItem(text)}
+                        onSubmitEditing={({ nativeEvent }) => setSubject(nativeEvent.text)}
                     />
-                    <RoundedButton size={50} onPress={() => addSubject(tmpItem)} text={'+'} />
+                    <RoundedButton size={50} onPress={() => setFocusSubject(subject)} text={'+'} />
                 </View>
             </View>
         </View>
