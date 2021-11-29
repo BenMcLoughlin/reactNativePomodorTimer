@@ -5,17 +5,35 @@ import { spacing } from '../../utils/sizes';
 import { colors } from '../../utils/colors';
 import { Countdown } from '../../components/Countdown';
 import { RoundedButton } from '../../components/RoundedButton';
+import { Timing } from './Timing';
 import { ProgressBar } from 'react-native-paper';
+import { useKeepAwake } from 'expo-keep-awake';
 
 export function Timer({ focusSubject }) {
+    useKeepAwake();
     const [isStarted, setIsStarted] = useState(false);
     const [progress, setProgress] = useState(1);
+    const [minutes, setMinutes] = useState(10);
 
+    const changeTime = (min) => {
+        setMinutes(min);
+        setProgress(1);
+        setIsStarted(false);
+    };
+
+    const onEnd = () => {
+
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.countdown}>
-                <Countdown isPaused={!isStarted} setProgress={setProgress} />
+                <Countdown
+                    minutes={minutes}
+                    isPaused={!isStarted}
+                    setProgress={setProgress}
+                    onEnd={onEnd}
+                />
             </View>
 
             <View style={{ paddingTop: spacing.xxl }}></View>
@@ -23,6 +41,9 @@ export function Timer({ focusSubject }) {
             <Text style={styles.task}>{focusSubject}</Text>
             <View style={{ paddingTop: spacing.sm }}>
                 <ProgressBar color="#5484e2" style={{ height: 10 }} progress={progress} />
+            </View>
+            <View style={styles.buttonWrapper}>
+                <Timing changeTime={changeTime} />
             </View>
             <View style={styles.buttonWrapper}>
                 <RoundedButton
@@ -48,6 +69,8 @@ const styles = StyleSheet.create({
     },
     buttonWrapper: {
         flex: 0.3,
+        flexDirection: 'row',
+
         padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
